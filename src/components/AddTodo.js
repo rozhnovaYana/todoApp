@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import { View, StyleSheet, TextInput, Alert } from "react-native"
+import { View, StyleSheet, TextInput, Alert, Keyboard } from "react-native"
 import { THEME } from "../themes/theme"
 import { EvilIcons } from '@expo/vector-icons'
 
@@ -9,7 +9,8 @@ export const AddTodo = ({ onSubmit }) => {
     const addNewTodo = () => {
         if (value.length) {
          onSubmit(value);
-        setValue("") //очищаем value   
+            setValue("") //очищаем value   
+            Keyboard.dismiss();//убираем клавиатуру
         } else {
             Alert.alert("Enter something")
         }
