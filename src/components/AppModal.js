@@ -1,6 +1,10 @@
 import React, { useState} from "react"
-import { Button, TextInput, StyleSheet, View, Modal, Alert } from "react-native"
+import { TextInput, StyleSheet, View, Modal, Alert } from "react-native"
 import { THEME } from "../themes/theme"
+import { Ionicons } from '@expo/vector-icons'; 
+import { AppButton } from "./ui/AppButton"
+import { MaterialIcons } from '@expo/vector-icons'; 
+
 
 export const AppModal = ({ visible, cancelModal, todoTitle, editTodo }) => {
     //создаем стейт, который хранит текст который введен в импут
@@ -25,8 +29,15 @@ export const AppModal = ({ visible, cancelModal, todoTitle, editTodo }) => {
                     placeholder="What do you want to do?"
                     maxLength={65} />
                 <View style={ styles.buttons}>
-                    <Button title="Cancel" color={THEME.RED_COLOR} onPress={ cancelModal}/>
-                    <Button title="Save" onPress={saveHeandler}/>
+                    <AppButton color={THEME.RED_COLOR} onPress={cancelModal}>
+                        <Ionicons name="arrow-back" size={30} color="white" />
+                    </AppButton>
+                    <AppButton
+                        onPress={saveHeandler}
+                        color="#98fb98"
+                    >
+                        <MaterialIcons name="done" size={25} color="white" />
+                    </AppButton>
                 </View>
             </View>
         </Modal>

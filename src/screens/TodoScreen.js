@@ -3,7 +3,12 @@ import { View, StyleSheet, Button } from "react-native"
 import { AppCard } from "../components/ui/AppCard"
 import { THEME } from "../themes/theme"
 import { AppModal } from "../components/AppModal"
-import {AppTextLight } from "../components/ui/AppTextLight"
+import { AppTextLight } from "../components/ui/AppTextLight"
+import { AppButton } from "../components/ui/AppButton"
+import { AntDesign } from '@expo/vector-icons'; 
+import { MaterialIcons } from '@expo/vector-icons'; 
+
+
 
 export const TodoScreen = ({ todo, closeTodoScreen, removeTodo, saveTodo }) => {
     //устанавливаем стейт для значения видимости модального окна
@@ -21,14 +26,20 @@ export const TodoScreen = ({ todo, closeTodoScreen, removeTodo, saveTodo }) => {
             <AppModal visible={modal} cancelModal={() => setModal(false)} todoTitle={todo.title} editTodo={editTodo}/>
             <AppCard style={styles.box}>
                 <AppTextLight style={styles.text}>{todo.title}</AppTextLight>
-                <Button title="Edit" color={THEME.MAIN_COLOR} onPress={()=>setModal(true)}/>
+                <AppButton color={THEME.MAIN_COLOR} onPress={() => setModal(true)}>
+                    <AntDesign name="edit" size={24} color="white" />
+                </AppButton>
             </AppCard>
             <View style={ styles.buttons}>
                 <View style={styles.button}>
-                    <Button title="Cancel" onPress={closeTodoScreen} color={THEME.GREY_COLOR}/>
+                    <AppButton onPress={closeTodoScreen} color={THEME.GREY_COLOR} style={styles.btn}>
+                        <MaterialIcons name="cancel" size={30} color="white" />
+                    </AppButton>
                 </View>
                 <View style={styles.button}>
-                    <Button title="Delete" color={THEME.RED_COLOR} onPress={()=>removeTodo(todo.id)}/>
+                    <AppButton color={THEME.RED_COLOR} onPress={() => removeTodo(todo.id)} style={styles.btn}>
+                        <AntDesign name="delete" size={30} color="white" />
+                    </AppButton>
                 </View>
             </View>
         </View>
@@ -41,12 +52,18 @@ const styles = StyleSheet.create({
         justifyContent:"space-around"
     },
     button: {
-        width: "40%"
+        width: "40%",
+        justifyContent: "center",
+        alignItems:"center"
     },
     text: {
         fontSize:25
     },
     box: {
         marginBottom:30
+    },
+    btn: {
+        height: 60,
+        width:140
     }
 })
