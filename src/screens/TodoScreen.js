@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import { View, StyleSheet, Button } from "react-native"
+import { View, StyleSheet, Dimensions } from "react-native"
 import { AppCard } from "../components/ui/AppCard"
 import { THEME } from "../themes/theme"
 import { AppModal } from "../components/AppModal"
@@ -64,6 +64,6 @@ const styles = StyleSheet.create({
     },
     btn: {
         height: 60,
-        width:140
+        width:Dimensions.get("window").width/3
     }
 })
