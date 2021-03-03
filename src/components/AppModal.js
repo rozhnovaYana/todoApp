@@ -14,6 +14,7 @@ export const AppModal = ({ visible, cancelModal, todoTitle, editTodo }) => {
         if (title.length < 3) {
             Alert.alert("Error", `Количество символо должно быть больше 3б сейчас ${title.length} символов`)
         } else {
+            setTitle(todoTitle)
             editTodo(title)
         }
     }

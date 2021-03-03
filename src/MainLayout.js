@@ -4,11 +4,12 @@ import { MainScreen } from './screens/MainScreen';
 import { THEME } from './themes/theme';
 import { StyleSheet, View, Alert } from 'react-native';
 import { TodoContext } from "./context/todo/todoContext";
-import { TodoScreen} from "./screens/TodoScreen"
+import { TodoScreen } from "./screens/TodoScreen"
+import {ScreensContext}from "./context/screens/screensContext"
 
 export const MainLayout = () => {
-    const {todos, addTodo, removeTodo, saveTodo}=useContext(TodoContext)
-    const[todoId, setTodoId]=useState(null)
+  const {todoId}=useContext(ScreensContext)
+    // const[todoId, setTodoId]=useState(null)
     //todos -  стейт для списка дел
     // const [todos, setTodos] = useState([
    
@@ -57,25 +58,12 @@ export const MainLayout = () => {
   //   }))
   //   }
     //переключение между єкранами
-  let content= <MainScreen
-    todos={todos}
-    addTodo={addTodo}
-    removeTodo={removeTodo}
-    //функция которая устанавливает айди для элемента, который выбран
-    openTodoScreen={setTodoId}
-  />
-  if (todoId) {
-    content = <TodoScreen
-      closeTodoScreen={() => setTodoId(null)}
-      todo={todos.find(item => item.id == todoId)}
-      removeTodo={removeTodo}
-      saveTodo={saveTodo }/>
-  }
+
     return (
         <View >
             <Navbar />
             <View style={styles.container}>
-                {content}
+              {todoId ? <TodoScreen /> : <MainScreen />}
             </View>
         </View>
     )

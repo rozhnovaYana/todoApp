@@ -1,10 +1,16 @@
-import React, {useState, useEffect} from "react"
+import React, {useState, useEffect, useContext} from "react"
 import { View, StyleSheet, FlatList, Image, Dimensions } from "react-native"
 import { AddTodo } from "../components/AddTodo"
 import { TodoList} from "../components/TodoList"
+import { TodoContext } from "../context/todo/todoContext"
+import { ScreensContext } from "../context/screens/screensContext"
 import { THEME } from "../themes/theme"
 
-export const MainScreen = ({ addTodo, removeTodo, todos, openTodoScreen }) => {
+
+
+export const MainScreen = () => {
+    const { addTodo, removeTodo, todos } = useContext(TodoContext)
+    const {changeScreen} =useContext(ScreensContext)
     //создаем стейт для значения ширины экрана
     const [deviceWidth, setDeviceWidth] = useState(Dimensions.get("window").width - THEME.PADDING_GORIZONTAL * 2)
     //useEffect используем для того, чтобы функция выполнялась только один раз при первом рендеринге
@@ -20,8 +26,6 @@ export const MainScreen = ({ addTodo, removeTodo, todos, openTodoScreen }) => {
         return () => {
             Dimensions.removeEventListener("change", update)
         }
-
-
     }
 
     )
@@ -29,7 +33,7 @@ export const MainScreen = ({ addTodo, removeTodo, todos, openTodoScreen }) => {
         <View style={{width: deviceWidth}}>
             <FlatList
                 data={todos}
-                renderItem={({ item }) => <TodoList item={item} removeItem={removeTodo} openTodoScreen={ openTodoScreen} />}
+                renderItem={({ item }) => <TodoList item={item} removeItem={removeTodo} openTodoScreen={ changeScreen} />}
                 keyExtractor={ item=>item.id}
             />
         </View>

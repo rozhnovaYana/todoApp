@@ -1,18 +1,23 @@
-import {ADD_TODO, REMOVE_TODO, SAVE_TODO} from "../types"
-export const todoReducer = (state, action) => {
-    switch (action.type) {
-        case ADD_TODO: return {...state, todos:[...state.todos, {
+import { ADD_TODO, REMOVE_TODO, SAVE_TODO } from "../types"
+//создаем обьект, который будет хранить в себе case в качестве ключа, а в качестве значения - функцию, которая возвращает новый обект стейта
+const handlers = {
+    [ADD_TODO]:(state, {title})=>({...state, todos:[...state.todos, {
           id:  Date.now().toString(),
-          title:action.title
-        }]}
-        case REMOVE_TODO: return {...state, todos:state.todos.filter(item=>item.id!==id)}
-        case SAVE_TODO: return {
-            ...state, todos: state.todos.map(item => {
+          title
+    }]
+    }),
+    [REMOVE_TODO]: (state, { id }) => ({ ...state, todos: state.todos.filter(item => item.id !== id) }),
+    [SAVE_TODO]:(state, {id, title})=>({...state, todos: state.todos.map(item => {
                 if (item.id == id) {
-                item.title=action.title
+                    item.title = title 
+                    return item
             }
-        })}
-        default: return state
+    })}),
+    DEFAULT:state=>state
+}
 
-    }
+export const todoReducer = (state, action) => {
+    //создаем одну шаблонную функцию
+    const handler = (handlers[action.type]) || handlers.DEFAULT
+    return handler(state, action)
 }
