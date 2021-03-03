@@ -2,7 +2,8 @@ import React, {useReducer, useContext} from "react"
 import {TodoContext} from "./todoContext"
 import { todoReducer } from "./TodoReducer"
 import { ADD_TODO, REMOVE_TODO, SAVE_TODO } from "../types"
-import {ScreensContext} from "../screens/screensContext"
+import { ScreensContext } from "../screens/screensContext"
+import {Alert} from 'react-native'
 
 
 export const TodoState = ({ children }) => {
@@ -18,11 +19,31 @@ export const TodoState = ({ children }) => {
         title
     })
     const removeTodo = id => {
-        changeScreen(null)
-        dispatch({
-            type: REMOVE_TODO,
-            id
-        })
+         const activeItem=todos.find(item => item.id ==id)
+            Alert.alert(
+            "Delete",
+            `Do you want to delete "${activeItem.title}"?`,
+            [
+                {
+                text: "Cancel",
+                style: "cancel"
+            },
+            {
+                text: "Delete", onPress: () => {
+                //сразу перекидываем на главную страницу
+                    changeScreen(null)
+                    dispatch({
+                        type: REMOVE_TODO,
+                        id
+                    })
+                }
+            }
+            ],
+            {cancelable:false}
+            
+            )
+        
+       
     }
     const saveTodo = (id, title) => dispatch({
         type: SAVE_TODO,

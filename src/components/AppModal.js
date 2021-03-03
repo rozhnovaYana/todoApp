@@ -14,9 +14,12 @@ export const AppModal = ({ visible, cancelModal, todoTitle, editTodo }) => {
         if (title.length < 3) {
             Alert.alert("Error", `Количество символо должно быть больше 3б сейчас ${title.length} символов`)
         } else {
-            setTitle(todoTitle)
             editTodo(title)
         }
+    }
+    const cancelHandler = () => {
+        setTitle(todoTitle)
+        cancelModal()
     }
     return (
         <Modal visible={visible}
@@ -30,7 +33,7 @@ export const AppModal = ({ visible, cancelModal, todoTitle, editTodo }) => {
                     placeholder="What do you want to do?"
                     maxLength={65} />
                 <View style={ styles.buttons}>
-                    <AppButton color={THEME.RED_COLOR} onPress={cancelModal}>
+                    <AppButton color={THEME.RED_COLOR} onPress={cancelHandler}>
                         <Ionicons name="arrow-back" size={30} color="white" />
                     </AppButton>
                     <AppButton
