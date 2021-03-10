@@ -20,8 +20,8 @@ export const TodoScreen = () => {
     //устанавливаем стейт для значения видимости модального окна
     const [modal, setModal] = useState(false)
     //функция, которая получает текст с модального окна, и передает эти данные вместа с айди выше в App.js
-    const editTodo = (title) => {
-        saveTodo(todo.id, title)
+    const editTodo = async (title) => {
+        await saveTodo(todo.id, title)
         setModal(false)
     }
     return (
@@ -40,7 +40,7 @@ export const TodoScreen = () => {
                     </AppButton>
                 </View>
                 <View style={styles.button}>
-                    <AppButton color={THEME.RED_COLOR} onPress={() => removeTodo(todo.id)} style={styles.btn}>
+                    <AppButton color={THEME.RED_COLOR} onPress={() => removeTodo(todoId)} style={styles.btn}>
                         <AntDesign name="delete" size={30} color="white" />
                     </AppButton>
                 </View>

@@ -1,15 +1,18 @@
-import React, {useState, useEffect, useContext} from "react"
+import React, {useState, useEffect, useContext, useCallback} from "react"
 import { View, StyleSheet, FlatList, Image, Dimensions } from "react-native"
 import { AddTodo } from "../components/AddTodo"
 import { TodoList} from "../components/TodoList"
 import { TodoContext } from "../context/todo/todoContext"
+import {AppLoader} from "../components/ui/AppLoader"
 import { ScreensContext } from "../context/screens/screensContext"
 import { THEME } from "../themes/theme"
+import { AppText } from "../components/ui/AppText"
+import { AppButton } from "../components/ui/AppButton"
 
 
 
 export const MainScreen = () => {
-    const { addTodo, removeTodo, todos } = useContext(TodoContext)
+    const { addTodo, removeTodo, todos, fetchTodos, loading, error } = useContext(TodoContext)
     const {changeScreen} =useContext(ScreensContext)
     //создаем стейт для значения ширины экрана
     const [deviceWidth, setDeviceWidth] = useState(Dimensions.get("window").width - THEME.PADDING_GORIZONTAL * 2)
@@ -29,6 +32,24 @@ export const MainScreen = () => {
     }
 
     )
+    
+    const fetchCallBack = useCallback(async () => await fetchTodos(), [fetchTodos])
+    
+    useEffect(() => {
+            fetchCallBack()
+        }, [])
+    if (error) {
+        return (
+            <View style={styles.error}>
+                <AppText>{error}</AppText>
+                <AppButton onPress={fetchCallBack}>Retry</AppButton>
+            </View>
+        )
+    
+    }
+    if (loading) {
+        return <AppLoader/>
+    }
     let content = (
         <View style={{width: deviceWidth}}>
             <FlatList
@@ -46,7 +67,9 @@ export const MainScreen = () => {
                     style={ styles.img}/>
             </View>
         )
-    }
+    } 
+    
+    
     return (
         <View>
             <AddTodo onSubmit={addTodo} />
@@ -66,5 +89,10 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         resizeMode:"contain"
+    },
+    error: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems:"center"
     }
 })
